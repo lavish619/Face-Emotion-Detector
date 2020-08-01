@@ -1,3 +1,4 @@
+import keras
 from keras import Sequential
 from keras.layers import Conv2D, MaxPool2D, InputLayer, Dense, BatchNormalization, Flatten, ZeroPadding2D,Activation
 
@@ -19,6 +20,14 @@ def load_trial_model(inputshape, num_outputs):
                     Dense(512,activation = "relu"),
                     Dense(num_outputs,activation = "softmax")
                    ])
+    
+    #Save the model architecture in an image form
+    keras.utils.plot_model(model, to_file='model_architecture.png') #saving the model architecture in an image form
+    
+    # Compile the model
+    model.compile(loss= "categorical_crossentropy",optimizer= "adam",metrics = ["accuracy"])
+    
+
     return model
 
 

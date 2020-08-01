@@ -1,14 +1,17 @@
 import cv2
 import keras
 import numpy as np
-
-model = keras.models.load_model("trial_model")
-
-vid = cv2.VideoCapture(0)
+from models import load_trial_model
 
 label_indices ={ 0:'anger', 1:'contempt', 2:'disgust', 3:'fear',
                 4:'happiness', 5:'neutral',6:'sadness',7:'surprise'}
 
+num_classes = len(label_indices)
+
+model =  load_trial_model((350,350,3),num_classes)
+model.load_weights("trial_model.h5")
+
+vid = cv2.VideoCapture(0)
 while True:
     ret, frame1 = vid.read()
     
@@ -20,7 +23,7 @@ while True:
     indice = np.argmax(model.predict(frame))
     prediction = label_indices[indice]
     #print(prediction)
-    cv2.putText(frame1, "Emotion:  "+ prediction, (10,20), cv2.FONT_HERSHEY_SIMPLEX , 0.8 , (0,0,255),2)
+    cv2.putText(frame1, "Emotion: "+ prediction, (5,20), cv2.FONT_HERSHEY_SIMPLEX , 0.8 , (0,0,255),2)
     cv2.imshow('frame', frame1)
     
     if cv2.waitKey(1) & 0xFF == ord('q'):
