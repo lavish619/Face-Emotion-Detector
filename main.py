@@ -1,14 +1,14 @@
 import cv2
 import keras
 import numpy as np
-from models import load_trial_model
+from models import trial_model, alexnet_model
 
 label_indices ={ 0:'anger', 1:'contempt', 2:'disgust', 3:'fear',
                 4:'happiness', 5:'neutral',6:'sadness',7:'surprise'}
 
 num_classes = len(label_indices)
 
-model =  load_trial_model((350,350,3),num_classes)
+model =  trial_model((350,350,3),num_classes)
 model.load_weights("trial_model.h5")
 
 vid = cv2.VideoCapture(0)
